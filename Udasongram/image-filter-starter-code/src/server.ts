@@ -3,7 +3,7 @@ import bodyParser from 'body-parser';
 import {filterImageFromURL, deleteLocalFiles} from './util/util';
 
 (async () => {
-
+	var path = require("path");
   // Init the Express application
   const app = express();
 
@@ -26,7 +26,23 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
   //    image_url: URL of a publicly accessible image
   // RETURNS
   //   the filtered image file [!!TIP res.sendFile(filteredpath); might be useful]
+	var filteredpath = '';
+  app.get( "/filteredimage", async ( req, res ) => {
+	 let { image_url } = req.query;
+    if ( !image_url ) {
+      return res.status(400)
+                .send(`image url is required`);
+    }
+	
+	filterImageFromURL(image_url).then(function(result){
+		
+		filteredpath =  result;
+	},function(err){});
 
+	console.log("path = "+filteredpath);
+
+	return res.sendFile(path.resolve(filteredpath));
+  } );
   /**************************************************************************** */
 
   //! END @TODO1
