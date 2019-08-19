@@ -37,7 +37,9 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
 	filterImageFromURL(image_url).then(function(result){
 		
 		filteredpath =  result;
-	},function(err){});
+	},function(err){
+		
+	});
 
 	console.log("path = "+filteredpath);
 
