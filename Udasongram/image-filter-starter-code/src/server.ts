@@ -8,7 +8,7 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
   const app = express();
 
   // Set the network port
-  const port = process.env.PORT || 8082;
+  const port = process.env.PORT || 8083;
   
   // Use the body parser middleware for post requests
   app.use(bodyParser.json());
@@ -33,17 +33,21 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
       return res.status(400)
                 .send(`image url is required`);
     }
+	deleteLocalFiles().then(function(result){
+
+		filterImageFromURL(image_url).then(function(result){
+		
+			filteredpath =  result;
+			console.log("path = "+filteredpath);
+			return res.sendFile(path.resolve(filteredpath));
+		},function(err){});
+
+	},function(err){});
 	
-	filterImageFromURL(image_url).then(function(result){
-		
-		filteredpath =  result;
-	},function(err){
-		
-	});
 
-	console.log("path = "+filteredpath);
+	
 
-	return res.sendFile(path.resolve(filteredpath));
+	
   } );
   /**************************************************************************** */
 
