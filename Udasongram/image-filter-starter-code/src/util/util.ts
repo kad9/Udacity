@@ -38,12 +38,14 @@ export async function deleteLocalFiles(){
 	
 	fs.readdir(__dirname+"/tmp/", (err, files) => {
 		  //if (err) throw err;
-
-			 for( let file of files) {
-		
-        fs.unlinkSync(__dirname+"/tmp/"+file);
-    }
-		});
+	if(files && Symbol.iterator in Object(files)){
+	console.log("file is an array = ");
+	console.log(Symbol.iterator in Object(files));
+		for( let file of files) {
+			fs.unlinkSync(__dirname+"/tmp/"+file);
+    		}
+	}
+	});
 		
    
 }
