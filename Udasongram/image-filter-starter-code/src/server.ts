@@ -35,15 +35,18 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
     }
 	deleteLocalFiles().then(function(result){
 
-		filterImageFromURL(image_url).then(function(result){
-		
-			filteredpath =  result;
+		filterImageFromURL(image_url).then( response => { 
+			filteredpath =  response;
 			console.log("path = "+filteredpath);
-			return res.sendFile(path.resolve(filteredpath));
-		},function(err){});
+			res.sendFile(path.resolve(filteredpath));
+            	}).catch(error => {
+              		res.send("There was an error saving the image to /tmp")
+            	})
+
 
 	},function(err){});
-	
+
+		
 
 	
 
